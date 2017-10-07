@@ -16,7 +16,13 @@ fn main() {
         println!("Please enter a number: ");
         let mut guess = String::new();
         std_in.read_line(&mut guess).expect("Failed to read line.");
-        let guess: u32 = guess.trim().parse().expect("Please enter a number!");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please enter a valid number");
+                continue;
+            }
+        };
 
         match guess.cmp(&number_to_guess) {
             Ordering::Less => println!("Too small"),
