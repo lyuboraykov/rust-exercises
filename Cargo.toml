@@ -1,0 +1,11 @@
+[package]
+name = "exercises"
+version = "0.1.0"
+authors = ["lyuboraykov <lyubo.raykov@gmail.com>"]
+
+[dependencies]
+rand = "0.3.17"
+
+[[bin]]
+name = "exercises"
+path = "src/main.rs"
