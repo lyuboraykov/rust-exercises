@@ -12,7 +12,15 @@ fn main() {
 
     let number_to_guess = rand::thread_rng().gen_range(1, 101);
 
+    const MAX_TRIES: u32 = 6;
+    let mut tries = 0;
+
     loop {
+        if tries == MAX_TRIES {
+            println!("Too many tries, you lose :/");
+            break;
+        }
+
         println!("Please enter a number: ");
         let mut guess = String::new();
         std_in.read_line(&mut guess).expect("Failed to read line.");
@@ -32,5 +40,6 @@ fn main() {
             },
             Ordering::Greater => println!("Too big"),
         }
+        tries += 1;
     }
 }
