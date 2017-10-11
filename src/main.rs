@@ -1,5 +1,17 @@
+struct UserAttribute {
+    key: String,
+    value: String
+}
+
 fn main() {
     let s = String::from("this is a string");
+    let user = UserAttribute {
+        key: String::from("this is a key"),
+        value: String::from("this is a value")
+    };
+
+    println!("user attribute: {}, {}", user.key, user.value);
+
     println!("{}", get_first_n_words(&s, 2));
 }
 
