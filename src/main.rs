@@ -1,64 +1,41 @@
 extern crate rand;
 
-use rand::Rng;
+const N: usize = 3;
 
+struct MetricHolder {
+    // TODO: make N a part of the metric holder and use a vector
+    // also improve by persisting the sum instead of doing avg every time
+    history: [u32; N],
+    counter: usize
+}
 
-const SEA: u8 = 0;
-const LAND: u8 = 1;
-
-const VISITED: u8 = 1;
-
-const SIZE: usize = 7;
-
-fn main() {
-    // TODO: make the array initializations better, not literals
-    // probably some vectors
-
-    let mut map: [[u8; SIZE]; SIZE] = [[0; SIZE]; SIZE];
-
-    map = initalize_map(map);
-
-    let mut visited: [[u8; SIZE]; SIZE] = [[0; SIZE]; SIZE];
-
-    let mut islands_count = 0;
-
-    for (i, &row) in map.iter().enumerate() {
-        for (j, &el) in row.iter().enumerate() {
-            if el == LAND && visited[i][j] != VISITED {
-                islands_count += 1;
-                traverse_figure(&map, &mut visited, i, j);
+impl MetricHolder {
+    fn moving_average(&mut self, new_val: u32) -> f64 {
+        self.history[self.counter] = new_val;
+        self.counter = (self.counter + 1) % N;
+        let mut sum: u32 = 0;
+        let mut count: u32 = 0;
+        for &el in self.history.iter() {
+            sum += el;
+            if el != 0 {
+                count += 1;
             }
         }
+        sum as f64 / count as f64
     }
-
-    println!("There are {} islands in the field", islands_count);
 }
 
-fn initalize_map(mut map: [[u8; SIZE]; SIZE]) -> [[u8; SIZE]; SIZE] {
-    for row in map.iter_mut() {
-        for el in row.iter_mut() {
-            *el = rand::thread_rng().gen_range(0, 2);
-        }
-    }
-    map
-}
+fn main() {
 
-fn traverse_figure(field: &[[u8; SIZE]], visited: &mut [[u8; SIZE]], r: usize, c: usize) {
-    if visited[r][c] == VISITED || field[r][c] == SEA {
-        return;
-    }
-    visited[r][c] = VISITED;
+    // TODO: implement default
+    let mut metric_holder = MetricHolder {
+        history: [0; N],
+        counter: 0
+    };
 
-    if r > 0 {
-        traverse_figure(field, visited, r - 1, c);
-    }
-    if r + 1 < SIZE {
-        traverse_figure(field, visited, r + 1, c);
-    }
-    if c > 0 {
-        traverse_figure(field, visited, r, c - 1);
-    }
-    if c + 1 < SIZE {
-        traverse_figure(field, visited, r, c + 1);
-    }
+    println!("{}", metric_holder.moving_average(1));
+    println!("{}", metric_holder.moving_average(1));
+    println!("{}", metric_holder.moving_average(1));
+    println!("{}", metric_holder.moving_average(2));
+    println!("{}", metric_holder.moving_average(3));
 }
