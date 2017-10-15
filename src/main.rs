@@ -11,11 +11,9 @@ impl MetricHolder {
         self.history.push_back(new_val);
         self.sum += new_val;
         if self.history.len() > self.n {
-            let old_val = match self.history.pop_front() {
-                Some(val) => val,
-                None => 0,
-            };
-            self.sum -= old_val;
+            if let Some(val) = self.history.pop_front() {
+                self.sum -= val;
+            }
         }
 
         self.sum as f64 / self.history.len() as f64
