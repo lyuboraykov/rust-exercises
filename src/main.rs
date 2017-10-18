@@ -1,4 +1,4 @@
-mod metrics;
+extern crate metrics;
 
 fn main() {
     let mut metric_holder = metrics::MetricHolder::new(2);
