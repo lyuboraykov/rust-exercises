@@ -1,5 +1,5 @@
 [package]
-name = "metrics"
+name = "service_utils"
 version = "0.1.0"
 authors = ["lyuboraykov <lyubo.raykov@gmail.com>"]
 
@@ -7,5 +7,5 @@ authors = ["lyuboraykov <lyubo.raykov@gmail.com>"]
 rand = "0.3.17"
 
 [[bin]]
-name = "exercises"
+name = "main"
 path = "src/main.rs"
