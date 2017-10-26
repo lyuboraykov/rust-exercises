@@ -42,15 +42,14 @@ impl Territory {
 
         // always give the new indexed ground a new id
         self.id += 1;
-        self.territory[r as usize][c as usize] = self.id;
-        self.reindex_islands(r, c);
+        self.reindex_islands(r, c, true);
 
         return self.islands_count;
     }
 
-    fn reindex_islands(&mut self, r: i32, c: i32) {
+    fn reindex_islands(&mut self, r: i32, c: i32, initial: bool) {
         let current_el = self.territory[r as usize][c as usize];
-        if current_el == SEA || current_el == self.id {
+        if (current_el == SEA || current_el == self.id) && !initial {
             return;
         }
 
@@ -62,7 +61,7 @@ impl Territory {
             let upper_bound = (N - 1) as usize;
             let are_coordinates_valid = new_coordinates.0 < upper_bound && new_coordinates.1 < upper_bound;
             if are_coordinates_valid {
-                self.reindex_islands(new_coordinates.0 as i32, new_coordinates.1 as i32);
+                self.reindex_islands(new_coordinates.0 as i32, new_coordinates.1 as i32, false);
             }
         }
     }
