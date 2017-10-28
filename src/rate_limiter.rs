@@ -16,7 +16,9 @@ pub struct RateLimiter {
 impl RateLimiter {
     pub fn acquire(&mut self) -> AcquireResult {
         let now_time = SystemTime::now();
-        let now_seconds = now_time.duration_since(UNIX_EPOCH).unwrap().as_secs();
+        let now_seconds = now_time.duration_since(UNIX_EPOCH)
+                                  .expect("Failed to get duration since epoch")
+                                  .as_secs();
         self.call_times.push_back(now_seconds);
         let mut redundant_calls_count = 0;
         for call_time in self.call_times.iter() {
