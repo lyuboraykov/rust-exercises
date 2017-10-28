@@ -7,13 +7,10 @@ pub fn most_common_word(text: &str) -> (&str, u32) {
     let mut most_common_word: &str = "";
 
     for word in text.split(' ') {
-        let count = match word_count.get(word) {
-            None => 1,
-            Some(c) => c + 1
-        };
-        word_count.insert(word, count);
-        if count > most_common_count {
-            most_common_count = count;
+        let count = word_count.entry(word).or_insert(0);
+        *count += 1;
+        if *count > most_common_count {
+            most_common_count = *count;
             most_common_word = word;
         }
     }
