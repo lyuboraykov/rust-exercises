@@ -1,5 +1,6 @@
 use std::collections::LinkedList;
 use std::cmp::Ordering::Equal;
+use std::fmt;
 
 pub struct MetricAggregator {
     n: usize,
@@ -36,5 +37,11 @@ impl MetricAggregator {
         let index = (p as f64 / 100f64) * self.history.len() as f64;
         // do floor because indexes start from 0
         *sorted_history[index.floor() as usize]
+    }
+}
+
+impl fmt::Display for MetricAggregator {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "MetricAggregator with bucket size - {}", self.n)
     }
 }
