@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::hash::Hash;
 
-// TODO: figure out what's the story with the 'a stuff
 pub fn most_common<T: Hash + Eq + Clone, I>(items: I) -> (T, u32)
     where I: Iterator<Item = T>
 {

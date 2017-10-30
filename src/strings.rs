@@ -5,3 +5,10 @@ pub fn most_common_word(text: &str) -> (&str, u32) {
     let words = text.split(' ');
     most_common(words)
 }
+
+pub fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        return x;
+    }
+    y
+}
