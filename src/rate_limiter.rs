@@ -2,6 +2,7 @@ use std::collections::LinkedList;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::cmp::Ordering;
 
+#[derive(Debug, PartialEq)]
 pub enum AcquireResult {
     Limited,
     Free,
