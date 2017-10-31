@@ -46,3 +46,23 @@ impl RateLimiter {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::{thread, time};
+
+    #[test]
+    fn test_rate_limiter() {
+        const LIMIT: u32 = 10;
+        let mut limiter = RateLimiter::new(1, LIMIT);
+        for _ in 0..LIMIT {
+            assert_eq!(limiter.acquire(), AcquireResult::Free);
+        }
+        assert_eq!(limiter.acquire(), AcquireResult::Limited);
+        thread::sleep(time::Duration::from_secs(1));
+        assert_eq!(limiter.acquire(),
+                AcquireResult::Free,
+                "Rate limiter didn't release after the window passed");
+    }
+}

@@ -24,3 +24,16 @@ pub fn most_common<T: Hash + Eq + Clone, I>(items: I) -> (T, u32)
     // clone so that it's not borrowed from the original context
     (most_common_el.clone(), most_common_count)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_most_common() {
+        let test_arr = [1, 2, 3, 4, 1];
+        let (most_common, count) = most_common(test_arr.iter());
+        assert_eq!(*most_common, 1);
+        assert_eq!(count, 2);
+    }
+}
