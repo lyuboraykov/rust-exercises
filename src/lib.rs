@@ -3,3 +3,4 @@ pub mod rate_limiter;
 pub mod islands;
 pub mod strings;
 pub mod arrays;
+pub mod merkle_tree;

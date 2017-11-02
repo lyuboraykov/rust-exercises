@@ -5,6 +5,7 @@ authors = ["lyuboraykov <lyubo.raykov@gmail.com>"]
 
 [dependencies]
 rand = "0.3.17"
+sha2 = "0.6.0"
 
 [[bin]]
 name = "main"
