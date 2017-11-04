@@ -1,3 +1,5 @@
+extern crate sha2;
+
 pub mod metric_aggregator;
 pub mod rate_limiter;
 pub mod islands;
