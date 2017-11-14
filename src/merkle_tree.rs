@@ -1,10 +1,11 @@
 use sha2::{Sha256, Digest};
 
+#[derive(Debug)]
 pub struct MerkleTree {
     pub root: Node
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Node {
     pub left: Option<Box<NodeType>>,
     pub right: Option<Box<NodeType>>,
@@ -21,7 +22,7 @@ impl Node {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum NodeType {
     // for now the data is represented as string
     DataNode(String),
@@ -87,6 +88,26 @@ impl MerkleTree {
     }
 }
 
+impl PartialEq for MerkleTree {
+    fn eq(&self, other: &MerkleTree) -> bool {
+
+        match &self.root.hash {
+            &Some(ref value) => {
+                if let &Some(ref other_value) = &other.root.hash {
+                    return *value == *other_value;
+                }
+                return false;
+            },
+            &None => {
+                if let &None = &other.root.hash {
+                    return true;
+                }
+                return false;
+            }
+        }
+    }
+}
+
 #[test]
 fn merkle_tree_constructs() {
     let test_data: [String; 2] = [String::from("abc"), String::from("bca")];
@@ -102,4 +123,12 @@ fn merkle_tree_constructs() {
         NodeType::DataNode(s) => assert_eq!(s, "bca"),
         NodeType::HashNode(_) => panic!("it should be 2 layers deep")
     };
+}
+
+#[test]
+fn test_partial_eq() {
+    let test_data: [String; 2] = [String::from("abc"), String::from("bca")];
+    let tree1 = MerkleTree::new(&test_data[..]);
+    let tree2 = MerkleTree::new(&test_data[..]);
+    assert_eq!(tree1, tree2);
 }
